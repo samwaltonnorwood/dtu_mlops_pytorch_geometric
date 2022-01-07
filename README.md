@@ -1,57 +1,28 @@
 DTU MLOps project - PyTorch Geometrics
 ==============================
+*Bjarke Hastrup, Sam Norwood, Henrik Hansen*
 
-For our project, we have chosen to work with the PyTorch-Geometrics framework and apply the TorchMD equivariant transformer architecture to predict potential energies for small molecules while learning on the fly.
+## Modelling objective
+For our project, we have chosen to work with the PyTorch-Geometrics framework to construct graph neural networks (GNN) that can predict the potential energy of small molecules. For this exact purpose Pytorch-Geometric already comes with out-of-the-box GNN implementations but here we will use the TorchMD-net Equivariant Transformer (ET) architecture [1], as this is considered state-of-the-art in 2022. This architecture comprises a series of multihead attention layers operating on embedded graph data, with an output layer which is equivariant to rotation of the graph. Rotationally equivariant graph neural networks have shown state-of-the-art accuracy and data efficiency in modeling the properties of atomistic systems.
 
-Project Organization
-------------
+## Dataset
+We will be using the QM9 dataset [2] which contains geometric, energetic, electronic, and thermodynamic properties for 134k stable small organic molecules made up of Carbon, Hydrogen, Oxygen, Nitrogen and Fluorine, with each molecular structure consisting of 9 atoms at the most. We aim to predict the potential energy given the molecular structure.
 
-    ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
-    ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
-    │   └── raw            <- The original, immutable data dump.
-    │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
-    │
-    ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
-    │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
-    ├── src                <- Source code for use in this project.
-    │   ├── __init__.py    <- Makes src a Python module
-    │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.readthedocs.io
+## Online data scheme
+In certain settings, we wish to model data which is costly to generate and/or is produced continuously by an external resource; a motivating example is the integration of learned predictive models with a queryable experimental or computational workflow. In our project, we emulate this setting by dividing the QM9 dataset into small subsets and create an online data scheme in which these subsets only become available gradually. Our system will keep track of the expanding dataset, triggering a retrain of the model when the total available data has grown by a prespecified fraction.
 
+## ML-Ops tools
+We will use version control to keep track of our code base as it evolves. We will record the parameters of the model and its performance as it is retrained. Data version control will be used to record changes to the dataset as new data is obtained. Record will also be kept of which states of the dataset are used for training the model. Additionally, we will use version control to keep track of all trained model objects.
 
---------
+A priori, we expect to use especially the following frameworks taught in the course (subject to change):
+ - Version control and deployment: Git + Github, DVC, gcs
+ - Structure: Cookiecutter
+ - Formatting: black, isort, mypy, typing
+ - Reproducibility: hydra, docker
+ - Code robustness: Unit testing on data and model construction, coverage, profiling
+ - Deep learning: Pytorch-Geometric + Pytorch-Lightning
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>
+## References
+[1] https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_54.pdf
+
+[2] http://quantum-machine.org/datasets/
