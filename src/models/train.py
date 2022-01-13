@@ -165,7 +165,7 @@ def main():
     trainer.fit(model, data)
 
     # run test set after completing the fit
-    trainer.test()
+    trainer.test(ckpt_path=None)
 
 
 if __name__ == "__main__":
