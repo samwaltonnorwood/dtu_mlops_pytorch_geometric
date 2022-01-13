@@ -31,13 +31,35 @@ A priori, we expect to use especially the following frameworks taught in the cou
 # Instructions
 
 ## Setup
-Info on how to set up environment, which pip commands to run etc.
+The following instructions are heavily inspired by the original repository: 
+https://github.com/torchmd/torchmd-net.
 
+Set up a new conda environment:
+
+     conda create --name dtu_mlops_pytorch_geometric python=3.8
+     conda activate dtu_mlops_pytorch_geometric
+
+After this, install PyTorch according to your hardware. The correct install can be 
+found here
+[PyTorch Installation](https://pytorch.org/get-started/locally/#start-locally). Paste
+the appropriate install command in from there, as below:
+
+     conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch -c nvidia
+
+Also, install PyTorch Geometric: 
+
+     conda install pytorch-geometric -c rusty1s -c conda-forge
+
+Finally, clone the repo:
+
+     git clone https://github.com/hviidhenrik/dtu_mlops_pytorch_geometric.git
+     pip install -e .
      pip install -r requirements.txt
-     pip install -e . 
+      
+The repository should now be ready to run training as described below.
 
 ## Run training
-To run model training:
+To run model training with the example configuration on the QM9 dataset:
 
      python src/models/train.py --conf config/example.yaml --dataset QM9 --log-dir output/
 
