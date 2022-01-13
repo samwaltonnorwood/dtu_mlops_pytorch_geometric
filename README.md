@@ -26,3 +26,19 @@ A priori, we expect to use especially the following frameworks taught in the cou
 [1] https://ml4physicalsciences.github.io/2021/files/NeurIPS_ML4PS_2021_54.pdf
 
 [2] http://quantum-machine.org/datasets/
+
+
+# Instructions
+
+## Setup
+Info on how to set up environment, which pip commands to run etc.
+
+     pip install -r requirements.txt
+     pip install -e . 
+
+## Run training
+To run model training:
+
+     mkdir output
+     python src/models/train.py --conf config/example.yaml --dataset QM9 --log-dir output/
+
