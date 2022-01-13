@@ -15,7 +15,7 @@ In certain settings, we wish to model data which is costly to generate and/or is
 We will use version control to keep track of our code base as it evolves. We will record the parameters of the model and its performance as it is retrained. Data version control will be used to record changes to the dataset as new data is obtained. Record will also be kept of which states of the dataset are used for training the model. Additionally, we will use version control to keep track of all trained model objects.
 
 A priori, we expect to use especially the following frameworks taught in the course (subject to change):
- - Version control and deployment: Git + Github, DVC, gcs
+ - Version control and deployment: Git + Github, DVC, gcp
  - Structure: Cookiecutter
  - Formatting: black, isort, mypy, typing
  - Reproducibility: hydra, docker
@@ -27,9 +27,7 @@ A priori, we expect to use especially the following frameworks taught in the cou
 
 [2] http://quantum-machine.org/datasets/
 
-
 # Instructions
-
 ## Setup
 The following instructions are heavily inspired by the original repository: 
 https://github.com/torchmd/torchmd-net.
@@ -63,3 +61,13 @@ To run model training with the example configuration on the QM9 dataset:
 
      python src/models/train.py --conf config/example.yaml --dataset QM9 --log-dir output/
 
+
+# TO DO
+ - make unit tests run and check coverage
+ - set up github actions workflow
+   - unit tests run on push to master
+   - linting using black and isort
+ - set up wandb
+ - docker stuff
+ - gcloud stuff
+ - do profiling

@@ -141,3 +141,4 @@ logs/
 output/*yaml
 output/*npz
 output/*csv
+output/tensorbord/
