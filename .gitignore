@@ -136,3 +136,8 @@ dmypy.json
 
 # temp directories
 logs/
+
+# output folder
+output/*yaml
+output/*npz
+output/*csv
