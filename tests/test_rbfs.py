@@ -1,6 +1,6 @@
 from pytest import mark
 import torch
-from torchmdnet.models.utils import rbf_class_mapping
+from src.models.utils import rbf_class_mapping
 
 
 @mark.parametrize("name,rbf_class", list(rbf_class_mapping.items()))

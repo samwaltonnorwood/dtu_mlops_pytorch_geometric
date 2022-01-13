@@ -2,7 +2,7 @@ import pytest
 from pytest import mark, raises
 from os.path import join
 import numpy as np
-from torchmdnet.datasets import Custom
+from src.data.custom import Custom
 
 
 @mark.parametrize("energy", [True, False])

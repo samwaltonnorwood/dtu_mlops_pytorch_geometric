@@ -1,6 +1,6 @@
 from pytest import mark
 import torch
-from torchmdnet.data import DataModule
+from src.data.data import DataModule
 from utils import load_example_args, DummyDataset
 
 

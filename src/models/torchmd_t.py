@@ -1,6 +1,6 @@
 from torch import nn
 from torch_geometric.nn import MessagePassing
-from torchmdnet.models.utils import (
+from src.models.utils import (
     NeighborEmbedding,
     CosineCutoff,
     Distance,

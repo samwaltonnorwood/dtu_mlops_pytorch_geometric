@@ -1,7 +1,7 @@
 from os.path import join, exists
 from pytest import mark, raises
 import torch
-from torchmdnet.utils import make_splits
+from src.utils import make_splits
 
 
 def sum_lengths(*args):

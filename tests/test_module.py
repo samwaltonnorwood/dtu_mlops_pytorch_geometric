@@ -2,11 +2,11 @@ from pytest import mark
 from glob import glob
 from os.path import dirname, join
 import pytorch_lightning as pl
-from torchmdnet import models
-from torchmdnet.models.model import load_model
-from torchmdnet.priors import Atomref
-from torchmdnet.module import LNNP
-from torchmdnet.data import DataModule
+from src import models
+from src.models.model import load_model
+from src.priors import Atomref
+from src.module import LNNP
+from src.data.data import DataModule
 
 from utils import load_example_args, DummyDataset
 

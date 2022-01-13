@@ -5,8 +5,8 @@ from torch.utils.data import Subset
 from torch_geometric.data import DataLoader
 from pytorch_lightning import LightningDataModule
 from pytorch_lightning.utilities import rank_zero_warn
-from torchmdnet import datasets
-from torchmdnet.utils import make_splits, MissingEnergyException
+from src import data
+from src.utils import make_splits, MissingEnergyException
 from torch_scatter import scatter
 
 
@@ -21,14 +21,14 @@ class DataModule(LightningDataModule):
     def setup(self, stage):
         if self.dataset is None:
             if self.hparams["dataset"] == "Custom":
-                self.dataset = datasets.Custom(
+                self.dataset = data.Custom(
                     self.hparams["coord_files"],
                     self.hparams["embed_files"],
                     self.hparams["energy_files"],
                     self.hparams["force_files"],
                 )
             else:
-                self.dataset = getattr(datasets, self.hparams["dataset"])(
+                self.dataset = getattr(data, self.hparams["dataset"])(
                     self.hparams["dataset_root"],
                     dataset_arg=self.hparams["dataset_arg"],
                 )

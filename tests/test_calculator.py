@@ -3,8 +3,8 @@ from torch.testing import assert_allclose
 from pytest import mark
 from glob import glob
 from os.path import dirname, join
-from torchmdnet.calculators import External
-from torchmdnet.models.model import load_model
+from src.calculators import External
+from src.models.model import load_model
 
 from utils import create_example_batch
 

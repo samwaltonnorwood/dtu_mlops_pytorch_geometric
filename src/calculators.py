@@ -1,5 +1,5 @@
 import torch
-from torchmdnet.models.model import load_model
+from src.models.model import load_model
 
 
 class External:

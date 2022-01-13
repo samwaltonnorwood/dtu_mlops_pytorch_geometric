@@ -10,7 +10,7 @@ __all__ = ["Atomref"]
 class BasePrior(nn.Module, metaclass=ABCMeta):
     r"""Base class for prior models.
     Derive this class to make custom prior models, which take some arguments and a dataset as input.
-    As an example, have a look at the `torchmdnet.priors.Atomref` prior.
+    As an example, have a look at the `src.priors.Atomref` prior.
     """
 
     def __init__(self, dataset=None):
