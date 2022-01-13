@@ -136,4 +136,3 @@ dmypy.json
 
 # temp directories
 logs/
-output/
