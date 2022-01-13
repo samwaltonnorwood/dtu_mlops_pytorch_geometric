@@ -39,6 +39,5 @@ Info on how to set up environment, which pip commands to run etc.
 ## Run training
 To run model training:
 
-     mkdir output
      python src/models/train.py --conf config/example.yaml --dataset QM9 --log-dir output/
 
