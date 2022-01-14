@@ -1,13 +1,14 @@
-import pytest
-from pytest import mark
 import pickle
 from os.path import exists, dirname, join
-import torch
-import pytorch_lightning as pl
-from src import models
-from src.models.model import create_model
-from src.models import output_modules
 
+import pytest
+import pytorch_lightning as pl
+import torch
+from pytest import mark
+
+from src import models
+from src.models import output_modules
+from src.models.model import create_model
 from utils import load_example_args, create_example_batch
 
 
@@ -55,6 +56,7 @@ def test_seed(model_name):
         assert (p1 == p2).all(), "Parameters don't match although using the same seed."
 
 
+@mark.skip(reason="Requires very well trained model")
 @mark.parametrize("model_name", models.__all__)
 @mark.parametrize(
     "output_model", output_modules.__all__,
