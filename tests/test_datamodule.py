@@ -45,7 +45,7 @@ def test_datamodule_standardize(energy, forces, has_atomref, tmpdir):
         assert (data.atomref == dataset.get_atomref()).all()
 
     if energy:
-        train_energies = torch.tensor(dataset.energies)[data.idx_train]
+        train_energies = torch.tensor(dataset.energies)[data.idx_train.to(int)]
         if has_atomref:
             # the mean and std should be computed after removing atomrefs
             train_energies -= torch.tensor(
