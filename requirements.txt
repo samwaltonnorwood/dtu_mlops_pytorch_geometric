@@ -9,4 +9,5 @@ torch
 torch_cluster
 torch_geometric
 torch_scatter
+wheel
 tqdm
