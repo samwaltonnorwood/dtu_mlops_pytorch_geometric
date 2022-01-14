@@ -16,7 +16,7 @@ early_stopping_patience: 30
 ema_alpha_dy: 1.0
 ema_alpha_y: 1.0
 embed_files: null
-embedding_dimension: 6 # 128
+embedding_dimension: 8 # 128 - must be a multiple of 8
 energy_files: null
 energy_weight: 1.0
 force_files: null

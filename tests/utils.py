@@ -5,7 +5,7 @@ from torch_geometric.data import Dataset, Data
 
 
 def load_example_args(model_name, remove_prior=False, **kwargs):
-    with open(join(dirname(dirname(__file__)), "examples", "example.yaml"), "r") as f:
+    with open(join(dirname(dirname(__file__)), "config", "example.yaml"), "r") as f:
         args = yaml.load(f, Loader=yaml.FullLoader)
     args["model"] = model_name
     if remove_prior:
