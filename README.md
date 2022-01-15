@@ -64,11 +64,10 @@ To run model training with the example configuration on the QM9 dataset:
 
 
 # TO DO
- - make unit tests run and check coverage
- - set up github actions workflow
-   - unit tests run on push to master
-   - linting using black and isort
- - set up wandb
- - docker stuff
- - gcloud stuff
- - do profiling
+ - [x] make unit tests run and check coverage :heavy_check_mark:
+ - [x] set up github actions workflow :heavy_check_mark:
+     - unit tests run on pull request to master branch 
+ - [ ] set up wandb
+ - [ ] docker stuff
+ - [ ] gcloud stuff
+ - [ ] do profiling
