@@ -36,7 +36,7 @@ jobs:
       run: |
         C:\Miniconda\condabin\conda.bat info --envs
         C:\Miniconda\condabin\conda.bat activate base
-        pip install -r requirements_tests.txt
+        pip install pytest coverage
         coverage run -m pytest tests/
         coverage report
         pip list
