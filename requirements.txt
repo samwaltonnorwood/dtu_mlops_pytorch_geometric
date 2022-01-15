@@ -11,4 +11,4 @@ torch_geometric
 torch_scatter
 wheel
 tqdm
-rdkit
+rdkit-pypi
