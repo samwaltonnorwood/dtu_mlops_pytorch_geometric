@@ -21,14 +21,18 @@ jobs:
     - name: Install dependencies
       run: |
         C:\Miniconda\condabin\conda.bat env create --file environment.yml --name base python=3.8
+        C:\Miniconda\condabin\conda.bat activate base
         C:\Miniconda\condabin\conda.bat install pytorch torchvision torchaudio cpuonly -c pytorch
         C:\Miniconda\condabin\conda.bat install pytorch-geometric -c rusty1s -c conda-forge
         python -m pip install --upgrade pip  
         pip install -r requirements.txt
+        pip install -e .
         C:\Miniconda\condabin\conda.bat info --envs
         C:\Miniconda\condabin\conda.bat init powershell
     - name: Test with pytest
       run: |
         C:\Miniconda\condabin\conda.bat activate base
+        pip list
+        conda list
         pytest --verbose
 
