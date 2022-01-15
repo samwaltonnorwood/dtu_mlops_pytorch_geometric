@@ -28,7 +28,7 @@ jobs:
         pip install -r requirements.txt
         pip install -e .
         C:\Miniconda\condabin\conda.bat activate base
-        C:\Miniconda\condabin\conda.bat conda install pyg -c pyg -c conda-forge
+        C:\Miniconda\condabin\conda.bat install pyg -c pyg -c conda-forge
         python test_geometric.py
     - name: Test with pytest
       run: |
