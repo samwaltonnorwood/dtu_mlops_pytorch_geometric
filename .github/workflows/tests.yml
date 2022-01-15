@@ -30,6 +30,5 @@ jobs:
     - name: Test with pytest
       run: |
         C:\Miniconda\condabin\conda.bat activate base
-        C:\Miniconda\condabin\conda.bat install pytest
         pytest --verbose
 
