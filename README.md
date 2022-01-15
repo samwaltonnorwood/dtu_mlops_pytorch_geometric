@@ -40,9 +40,10 @@ Set up a new conda environment:
 After this, install PyTorch according to your hardware. The correct install can be 
 found here
 [PyTorch Installation](https://pytorch.org/get-started/locally/#start-locally). Paste
-the appropriate install command in from there, as below:
+the appropriate install command in from there. Below is shown an example command 
+required to install a basic PyTorch version without CUDA on Windows: 
 
-     conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch -c nvidia
+     conda install pytorch torchvision torchaudio cpuonly -c pytorch
 
 Also, install PyTorch Geometric: 
 
