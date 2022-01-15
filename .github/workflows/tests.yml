@@ -32,13 +32,8 @@ jobs:
         pip install torch-cluster -f https://data.pyg.org/whl/torch-1.10.1+cpu.html
         pip install torch-spline-conv -f https://data.pyg.org/whl/torch-1.10.1+cpu.html
         pip install torch-geometric
-    - name: Unit test with Pytest and coverage
+    - name: Test with pytest
       run: |
         C:\Miniconda\condabin\conda.bat info --envs
         C:\Miniconda\condabin\conda.bat activate base
-        pip install pytest coverage
-        coverage run -m pytest tests/
-        coverage report
-        pip list
-        conda list
-
+        pytest --verbose
