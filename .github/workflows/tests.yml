@@ -20,7 +20,9 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        C:\Miniconda\condabin\conda.bat env create --file environment.yml python=3.8
+        C:\Miniconda\condabin\conda.bat env create --file environment.yml --name base python=3.8
+        C:\Miniconda\condabin\conda.bat install --file requirements.txt
+        C:\Miniconda\condabin\conda.bat install pytorch torchvision torchaudio cpuonly -c pytorch
         C:\Miniconda\condabin\conda.bat info --envs
         C:\Miniconda\condabin\conda.bat init powershell
     - name: Test with pytest
