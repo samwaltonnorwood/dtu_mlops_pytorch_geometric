@@ -67,7 +67,9 @@ To run model training with the example configuration on the QM9 dataset:
  - make unit tests run and check coverage :heavy_check_mark:
  - set up github actions workflow :heavy_check_mark:
      - unit tests run on pull request to master branch 
- - set up wandb
+ - do profiling
+ - make train.py save model to models/ folder
+ - make a predict_model file and some data for proof of concept
+ - set up wandb logging
  - docker stuff
  - gcloud stuff
- - do profiling
