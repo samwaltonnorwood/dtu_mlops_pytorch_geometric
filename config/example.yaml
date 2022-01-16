@@ -5,7 +5,7 @@ attn_activation: silu
 batch_size: 128 # 16
 coord_files: null
 cutoff_lower: 0.0
-cutoff_upper: 5.0
+cutoff_upper: 4.0
 dataset: QM9
 dataset_arg: energy_U0
 dataset_root: data
@@ -33,11 +33,11 @@ max_num_neighbors: 32
 max_z: 100
 neighbor_embedding: true
 ngpus: 0
-num_epochs: 2
+num_epochs: 20
 num_heads: 8
 num_layers: 6
 num_nodes: 1
-num_rbf: 20
+num_rbf: 10 # 20
 num_workers: 4
 output_model: Scalar
 precision: 32 #32
@@ -49,9 +49,9 @@ save_interval: 3
 seed: 1
 splits: null
 standardize: false
-test_interval: 3
-test_size: null
-train_size: 1100 # 110000
+test_interval: 5
+test_size: 512
+train_size: 256 # 110000
 trainable_rbf: false
-val_size: 100 # 10000
+val_size: 256 # 10000
 weight_decay: 0.0

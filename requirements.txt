@@ -7,4 +7,5 @@ pytorch-lightning==1.3.8
 PyYAML
 setuptools==59.5.0
 tqdm
+wandb
 rdkit-pypi
