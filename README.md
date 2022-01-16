@@ -40,9 +40,10 @@ Set up a new conda environment:
 After this, install PyTorch according to your hardware. The correct install can be 
 found here
 [PyTorch Installation](https://pytorch.org/get-started/locally/#start-locally). Paste
-the appropriate install command in from there, as below:
+the appropriate install command in from there. Below is shown an example command 
+required to install a basic PyTorch version without CUDA on Windows: 
 
-     conda install pytorch torchvision torchaudio cudatoolkit=11.1 -c pytorch -c nvidia
+     conda install pytorch torchvision torchaudio cpuonly -c pytorch
 
 Also, install PyTorch Geometric: 
 
@@ -66,11 +67,12 @@ View training diagnostics:
 	https://wandb.ai/ml-ops-awesome-25
 
 # TO DO
- - make unit tests run and check coverage
- - set up github actions workflow
-   - unit tests run on push to master
-   - linting using black and isort
- - set up wandb
+ - make unit tests run and check coverage :heavy_check_mark:
+ - set up github actions workflow :heavy_check_mark:
+     - unit tests run on pull request to master branch 
+ - do profiling
+ - make train.py save model to models/ folder
+ - make a predict_model file and some data for proof of concept
+ - set up wandb logging :heavy_check_mark:
  - docker stuff
  - gcloud stuff
- - do profiling
