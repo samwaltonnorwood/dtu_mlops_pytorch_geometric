@@ -61,6 +61,9 @@ To run model training with the example configuration on the QM9 dataset:
 
      python src/models/train.py --conf config/example.yaml --dataset QM9 --log-dir output/
 
+View training diagnostics:
+
+	https://wandb.ai/ml-ops-awesome-25
 
 # TO DO
  - make unit tests run and check coverage

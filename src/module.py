@@ -1,3 +1,4 @@
+import wandb
 import torch
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import ReduceLROnPlateau
@@ -25,6 +26,9 @@ class LNNP(LightningModule):
         self.losses = None
         self._reset_losses_dict()
 
+        # WandB
+        self.save_hyperparameters()
+
     def configure_optimizers(self):
         optimizer = AdamW(
             self.model.parameters(),
@@ -50,17 +54,24 @@ class LNNP(LightningModule):
         return self.model(z, pos, batch=batch)
 
     def training_step(self, batch, batch_idx):
-        return self.step(batch, mse_loss, "train")
+        loss = self.step(batch, mse_loss, "train")
+        self.log('WandB-log: Training loss', loss, on_epoch=True)
+        return loss
 
     def validation_step(self, batch, batch_idx, *args):
         if len(args) == 0 or (len(args) > 0 and args[0] == 0):
             # validation step
-            return self.step(batch, mse_loss, "val")
+            loss = self.step(batch, mse_loss, "val")
+            self.log('WandB-log: Validation loss', loss, on_epoch=True)
+            return loss
         # test step
-        return self.step(batch, l1_loss, "test")
+        loss = self.step(batch, l1_loss, "test")
+        self.log('WandB-log: Test loss', loss, on_epoch=True)
+        return loss
 
     def test_step(self, batch, batch_idx):
-        return self.step(batch, l1_loss, "test")
+        self.step(batch, l1_loss, "test")
+        return 
 
     def step(self, batch, loss_fn, stage):
         with torch.set_grad_enabled(stage == "train" or self.hparams.derivative):

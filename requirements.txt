@@ -10,3 +10,4 @@ torch_cluster
 torch_geometric
 torch_scatter
 tqdm
+wandb

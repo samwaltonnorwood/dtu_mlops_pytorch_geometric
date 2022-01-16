@@ -5,7 +5,7 @@ import logging
 import pytorch_lightning as pl
 from pytorch_lightning.callbacks import EarlyStopping
 from pytorch_lightning.callbacks.model_checkpoint import ModelCheckpoint
-from pytorch_lightning.loggers import CSVLogger
+from pytorch_lightning.loggers import CSVLogger, WandbLogger
 from pytorch_lightning.plugins import DDPPlugin
 from src.module import LNNP
 from src.data import data, qm9
@@ -111,6 +111,16 @@ def main():
     args = get_args()
     pl.seed_everything(args.seed, workers=True)
 
+    # WandB
+    wandb_logger = WandbLogger(
+        name='early-wandb-experimenting', 
+        entity='ml-ops-awesome-25', 
+        project="ML-Ops-Equivariant-Transformer", 
+        log_model=True,
+        save_code=True,
+        group="WandB-development"
+    )
+
     # initialize data module
     data = DataModule(args)
     data.prepare_data()
@@ -128,11 +138,12 @@ def main():
 
     # initialize lightning module
     model = LNNP(args, prior_model=prior, mean=data.mean, std=data.std)
+    wandb_logger.watch(model, log="all", log_freq=1)
 
     checkpoint_callback = ModelCheckpoint(
         dirpath=args.log_dir,
         monitor="val_loss",
-        save_top_k=10,  # -1 to save all
+        save_top_k=2,  # -1 to save all
         period=args.save_interval,
         filename="{epoch}-{val_loss:.4f}-{test_loss:.4f}",
     )
@@ -156,7 +167,7 @@ def main():
         auto_lr_find=False,
         resume_from_checkpoint=args.load_model,
         callbacks=[early_stopping, checkpoint_callback],
-        logger=[tb_logger, csv_logger],
+        logger=[tb_logger, csv_logger, wandb_logger],
         reload_dataloaders_every_epoch=False,
         precision=args.precision,
         plugins=[ddp_plugin],
