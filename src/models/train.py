@@ -177,7 +177,7 @@ def main():
         monitor="val_loss",
         save_top_k=1,  # -1 to save all
         period=args.save_interval,
-        filename="{epoch}-{val_loss:.4f}-{test_loss:.4f}",
+        filename="model",
     )
     early_stopping = EarlyStopping("val_loss", patience=args.early_stopping_patience)
 

@@ -163,3 +163,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+# run it with python src/models/predict.py --conf config/predict_config.yaml
