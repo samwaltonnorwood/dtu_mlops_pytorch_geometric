@@ -58,9 +58,13 @@ Finally, clone the repo:
 The repository should now be ready to run training as described below.
 
 ## Run training
-To run model training with the example configuration on the QM9 dataset:
+For the purpose of the present project, the model is only configured to run on the QM9 
+dataset. Specific hyperparameters are set in a yaml file which can be pointed to at the
+command line. To run model training with the example configuration:
 
-     python src/models/train.py --conf config/example.yaml --dataset QM9 --log-dir output/
+     python src/models/train.py --conf config/train_hparams.yaml
+
+Which will save the model along with some output metrics to the `models/` directory.
 
 View training diagnostics:
 

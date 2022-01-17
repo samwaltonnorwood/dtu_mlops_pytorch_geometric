@@ -18,7 +18,7 @@ from src.models.utils import rbf_class_mapping, act_class_mapping
 from src.utils import LoadFromFile, LoadFromCheckpoint, save_argparse, number
 
 
-def get_train_args():
+def get_predict_args():
     # fmt: off
     parser = argparse.ArgumentParser(description='Training')
     parser.add_argument('--load-model', action=LoadFromCheckpoint,
@@ -140,75 +140,25 @@ def get_train_args():
 
 
 def main():
-    args = get_train_args()
-    pl.seed_everything(args.seed, workers=True)
-
-    # WandB
-    wandb_logger = WandbLogger(
-        name='early-wandb-experimenting',
-        entity='ml-ops-awesome-25',
-        project="ML-Ops-Equivariant-Transformer",
-        log_model=True,
-        save_code=True,
-        group="WandB-development"
-    )
-
+    args = get_predict_args()
     # initialize data module
     data = DataModule(args)
     data.prepare_data()
-    data.setup("fit")
+    data.setup("predict")
 
-    prior = None
-    if args.prior_model:
-        assert hasattr(priors, args.prior_model), (
-            f"Unknown prior model {args['prior_model']}. "
-            f"Available models are {', '.join(priors.__all__)}"
-        )
-        # initialize the prior model
-        prior = getattr(priors, args.prior_model)(dataset=data.dataset)
-        args.prior_args = prior.get_init_args()
-
-    # initialize lightning module
-    model = LNNP(args, prior_model=prior, mean=data.mean, std=data.std)
-    wandb_logger.watch(model, log="all", log_freq=1)
-
-    checkpoint_callback = ModelCheckpoint(
-        dirpath=args.save_dir,
-        monitor="val_loss",
-        save_top_k=1,  # -1 to save all
-        period=args.save_interval,
-        filename="{epoch}-{val_loss:.4f}-{test_loss:.4f}",
-    )
-    early_stopping = EarlyStopping("val_loss", patience=args.early_stopping_patience)
-
-    tb_logger = pl.loggers.TensorBoardLogger(
-        args.save_dir, name="tensorbord", version="", default_hp_metric=False
-    )
-    csv_logger = CSVLogger(args.save_dir, name="", version="")
-
-    ddp_plugin = None
-    if "ddp" in args.distributed_backend:
-        ddp_plugin = DDPPlugin(find_unused_parameters=False, num_nodes=args.num_nodes)
+    model = LNNP.load_from_checkpoint(checkpoint_path="models/model.ckpt")
+    model.freeze()
+    idx = data.test_dataset.indices
+    x = data.test_dataset.dataset[idx.to(int)]
 
     trainer = pl.Trainer(
         max_epochs=args.num_epochs,
-        gpus=args.ngpus,
         num_nodes=args.num_nodes,
-        accelerator=args.distributed_backend,
         default_root_dir=args.save_dir,
         auto_lr_find=False,
-        resume_from_checkpoint=args.load_model,
-        callbacks=[early_stopping, checkpoint_callback],
-        logger=[tb_logger, csv_logger, wandb_logger],
-        reload_dataloaders_every_epoch=False,
         precision=args.precision,
-        plugins=[ddp_plugin],
     )
-
-    trainer.fit(model, data)
-
-    # run test set after completing the fit
-    trainer.test(ckpt_path=None)
+    y_hat = trainer.test(model, datamodule=data)
 
 
 if __name__ == "__main__":

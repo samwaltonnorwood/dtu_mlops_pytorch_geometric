@@ -111,7 +111,7 @@ class LoadFromFile(argparse.Action):
 class LoadFromCheckpoint(argparse.Action):
     # parser.add_argument('--file', type=open, action=LoadFromFile)
     def __call__(self, parser, namespace, values, option_string=None):
-        hparams_path = join(dirname(values), "hparams.yaml")
+        hparams_path = join(dirname(values), "input.yaml")
         if not exists(hparams_path):
             print(
                 "Failed to locate the checkpoint's hparams.yaml file. Relying on command line args."
