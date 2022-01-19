@@ -89,59 +89,59 @@ View training diagnostics:
  - Write dockerfile creates .mar model object using "torch-model-archiver"
    and serves this using torchserve. Like the MNIST example:
  
------------------------  Dockerfile   ---------------------------------
-FROM pytorch/torchserve:0.3.0-cpu
+	-----------------------  Dockerfile   ---------------------------------
+	FROM pytorch/torchserve:0.3.0-cpu
 
-COPY mnist.py mnist_cnn.pt mnist_handler.py /home/model-server/
+	COPY mnist.py mnist_cnn.pt mnist_handler.py /home/model-server/
 
-USER root
-RUN printf "\nservice_envelope=json" >> /home/model-server/config.properties
-USER model-server
+	USER root
+	RUN printf "\nservice_envelope=json" >> /home/model-server/config.properties
+	USER model-server
 
-RUN torch-model-archiver \
-  --model-name=mnist \
-  --version=1.0 \
-  --model-file=/home/model-server/mnist.py \
-  --serialized-file=/home/model-server/mnist_cnn.pt \
-  --handler=/home/model-server/mnist_handler.py \
-  --export-path=/home/model-server/model-store
+	RUN torch-model-archiver \
+	  --model-name=mnist \
+	  --version=1.0 \
+	  --model-file=/home/model-server/mnist.py \
+	  --serialized-file=/home/model-server/mnist_cnn.pt \
+	  --handler=/home/model-server/mnist_handler.py \
+	  --export-path=/home/model-server/model-store
 
-CMD ["torchserve", \
-     "--start", \
-     "--ts-config=/home/model-server/config.properties", \
-     "--models", \
-     "mnist=mnist.mar"]
-END
------------------------------------------------------------------------
+	CMD ["torchserve", \
+	     "--start", \
+	     "--ts-config=/home/model-server/config.properties", \
+	     "--models", \
+	     "mnist=mnist.mar"]
+	END
+	-----------------------------------------------------------------------
 
- - Build image like this
+ - Build image like this:
 
- 	docker build \
-  	  --tag=us-central1-docker.pkg.dev/equivariant-transformer/gnn-artifact-repo/serve-energy-predictor \
-  	  .
+     docker build \
+     	--tag=us-central1-docker.pkg.dev/equivariant-transformer/gnn-artifact-repo/serve-energy-predictor \
+     	.
   
- - Authenticate docker
+ - Authenticate docker:
 
- 	gcloud auth configure-docker us-central1-docker.pkg.dev
+     gcloud auth configure-docker us-central1-docker.pkg.dev
 
- - and push it to container registry
+ - and push it to container registry:
 
-	docker push us-central1-docker.pkg.dev/equivariant-transformer/gnn-artifact-repo/serve-energy-predictor
+     docker push us-central1-docker.pkg.dev/equivariant-transformer/gnn-artifact-repo/serve-energy-predictor
 	
  - Create model version resource
  
-	gcloud beta ai-platform models create gnn-model \
-	  --region=us-central1 \
-	  --enable-logging \
-	  --enable-console-logging
+     gcloud beta ai-platform models create gnn-model \
+     	--region=us-central1 \
+	--enable-logging \
+	--enable-console-logging
 	  
- - and deploy 
+ - and deploy:
 
-	gcloud beta ai-platform versions create v1 \
-	  --region=us-central1 \
-	  --model=gnn-model \
-	  --machine-type=n1-standard-4 \
-	  --image=us-central1-docker.pkg.dev/equivariant-transformer/gnn-artifact-repo/serve-energy-predictor \
-	  --ports=8080 \
-	  --health-route=/ping \
-	  --predict-route=/predictions/ ...?
+     gcloud beta ai-platform versions create v1 \
+     	--region=us-central1 \
+	--model=gnn-model \
+	--machine-type=n1-standard-4 \
+	--image=us-central1-docker.pkg.dev/equivariant-transformer/gnn-artifact-repo/serve-energy-predictor \
+	--ports=8080 \
+	--health-route=/ping \
+	--predict-route=/predictions/ ...?
