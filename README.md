@@ -80,15 +80,16 @@ View training diagnostics:
  - set up wandb logging :heavy_check_mark:
 
 ## Deployment
- - Write predict.py
- - Write handler.py ???
+ - We need the three input files for "torch-model-archiver"
+ - Write '--model-file': torchmd_et.py
+ - Write '--serialized-file': jit_dump.pt  (easy)
+ - Write '--handler': ....  read docs
  
  Cloud:
  - Create gcloud project: equivariant-transformer :heavy_check_mark:
  - Create artifact-repo: gnn-artifact-repo :heavy_check_mark:
- - Write dockerfile creates .mar model object using "torch-model-archiver"
-   and serves this using torchserve. Like the MNIST example:
-
+ - Write dockerfile that creates .mar model object using "torch-model-archiver"
+   and serves this using torchserve. See MNIST example below:
 
 ```
 FROM pytorch/torchserve:0.3.0-cpu
@@ -115,8 +116,13 @@ CMD ["torchserve", \
 END
 ```
 
+Obviously, we would need to COPY our src/ folder into /home/model-server like this
+```
+COPY src /home/model-server/src
+```
 
- - Build image like this:
+
+ - Once we have a dockerfile, we must build the image like this:
 
 ```     
     docker build \
