@@ -71,6 +71,7 @@ View training diagnostics:
 	https://wandb.ai/ml-ops-awesome-25
 
 # TO DO
+## ML/DevOps on repository
  - make unit tests run and check coverage :heavy_check_mark:
  - set up github actions workflow :heavy_check_mark:
      - unit tests run on pull request to master branch 
@@ -79,11 +80,20 @@ View training diagnostics:
  - make a predict_model file and some data for proof of concept
  - set up wandb logging :heavy_check_mark:
 
-## Deployment
+## Deployment on Google Cloud Project
+### Model (re)training in the cloud
+ - Setup Cloud Storage bucket
+ - Write Dockerfile like here: https://cloud.google.com/ai-platform/training/docs/custom-containers-training
+ - Make sure training script copies final model checkpoint (or serialized model) to bucket using gsutil, like here
+`https://github.com/GoogleCloudPlatform/cloudml-samples/blob/c37999a568d8de92f9fae222bc45de25c9f4f60e/pytorch/containers/quickstart/mnist/trainer/mnist.py.`
+ - Push to Container Registry
+ - Either submit job, or create a trigger on pushes to master (can this be restricted to changes in data/raw or src/ ??) 
+
+### Online prediction service using `TorchServe`
  - We need the three input files for "torch-model-archiver"
- - Write '--model-file': torchmd_et.py
- - Write '--serialized-file': jit_dump.pt  (easy)
- - Write '--handler': ....  read docs
+ - Write `--model-file`: .... (model.py is not enough. How do we specify the exact architecture?)
+ - Write `--serialized-file`: jit_dump.pt  (easy to place in models/ and copy to model-server)
+ - Write `--handler`: ....  We must create custom handler that loads ase.Atoms() object and feeds to serving model
  
  Cloud:
  - Create gcloud project: equivariant-transformer :heavy_check_mark:
@@ -118,8 +128,20 @@ END
 
 Obviously, we would need to COPY our src/ folder into /home/model-server like this
 ```
+FROM pytorch/torchserve:0.3.0-cpu
+
+RUN pip install torch==1.10.0+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html --no-cache-dir && \
+pip install torch-scatter -f https://data.pyg.org/whl/torch-1.10.0+cpu.html --no-cache-dir && \
+pip install torch-sparse -f https://data.pyg.org/whl/torch-1.10.0+cpu.html --no-cache-dir && \
+pip install torch-cluster -f https://data.pyg.org/whl/torch-1.10.0+cpu.html --no-cache-dir && \
+pip install torch-geometric --no-cache-dir && \
+pip install -e . --no-cache-dir && \
+pip install -r requirements.txt --no-cache-dir
+
+
 COPY src /home/model-server/src
 ```
+
 
 
  - Once we have a dockerfile, we must build the image like this:
@@ -129,7 +151,7 @@ COPY src /home/model-server/src
     --tag=us-central1-docker.pkg.dev/equivariant-transformer/gnn-artifact-repo/serve-energy-predictor \
     .
 ```
-- Authenticate docker:
+ - Authenticate docker:
 ```
      gcloud auth configure-docker us-central1-docker.pkg.dev
 ```
