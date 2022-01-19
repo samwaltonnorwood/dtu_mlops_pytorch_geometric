@@ -89,7 +89,7 @@ View training diagnostics:
  - Write dockerfile creates .mar model object using "torch-model-archiver"
    and serves this using torchserve. Like the MNIST example:
  
-	-----------------------  Dockerfile   ---------------------------------
+'''
 	FROM pytorch/torchserve:0.3.0-cpu
 
 	COPY mnist.py mnist_cnn.pt mnist_handler.py /home/model-server/
@@ -112,28 +112,29 @@ View training diagnostics:
 	     "--models", \
 	     "mnist=mnist.mar"]
 	END
+'''
 
  - Build image like this:
-
+'''
      docker build \
      	--tag=us-central1-docker.pkg.dev/equivariant-transformer/gnn-artifact-repo/serve-energy-predictor \
      	.
-  
+'''  
  - Authenticate docker:
-
+'''
      gcloud auth configure-docker us-central1-docker.pkg.dev
-
+'''
  - and push it to container registry:
-
+'''
      docker push us-central1-docker.pkg.dev/equivariant-transformer/gnn-artifact-repo/serve-energy-predictor
-	
+'''	
  - Create model version resource
- 
+ '''
      gcloud beta ai-platform models create gnn-model \
      	--region=us-central1 \
 	--enable-logging \
 	--enable-console-logging
-	  
+'''	  
  - and deploy:
 
      gcloud beta ai-platform versions create v1 \
