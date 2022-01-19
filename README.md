@@ -112,7 +112,6 @@ View training diagnostics:
 	     "--models", \
 	     "mnist=mnist.mar"]
 	END
-	-----------------------------------------------------------------------
 
  - Build image like this:
 
