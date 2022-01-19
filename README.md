@@ -141,7 +141,7 @@ END
 	--enable-console-logging
  ```
  - and deploy:
-
+```
      gcloud beta ai-platform versions create v1 \
      	--region=us-central1 \
 	--model=gnn-model \
@@ -150,3 +150,4 @@ END
 	--ports=8080 \
 	--health-route=/ping \
 	--predict-route=/predictions/ ...?
+```
