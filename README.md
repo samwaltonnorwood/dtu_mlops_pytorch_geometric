@@ -82,12 +82,13 @@ View training diagnostics:
 
 ## Deployment on Google Cloud Project
 ### Model (re)training in the cloud
- - Setup Cloud Storage bucket
- - Write Dockerfile like here: https://cloud.google.com/ai-platform/training/docs/custom-containers-training
+ - Setup Cloud Storage bucket: awesome_sauce_bucket :heavy_check_mark:
+ - Write Dockerfile like here: https://cloud.google.com/ai-platform/training/docs/custom-containers-training  :heavy_check_mark:
  - Make sure training script copies final model checkpoint (or serialized model) to bucket using gsutil, like here
 `https://github.com/GoogleCloudPlatform/cloudml-samples/blob/c37999a568d8de92f9fae222bc45de25c9f4f60e/pytorch/containers/quickstart/mnist/trainer/mnist.py.`
- - Push to Container Registry
- - Either submit job, or create a trigger on pushes to master (can this be restricted to changes in data/raw or src/ ??) 
+ - Push to Container Registry :heavy_check_mark:
+ - Either submit job, or create a trigger on pushes to master (can this be restricted to changes in data/raw or src/ ??)
+	`wandb: ERROR api_key not configured (no-tty). call wandb.login(key=[your_api_key])`
 
 ### Online prediction service using `TorchServe`
  - We need the three input files for "torch-model-archiver"
